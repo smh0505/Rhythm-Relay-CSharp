@@ -18,8 +18,8 @@
   - 파이썬 Ver.1.0에서 사용된 입력 방식(곡, 알파벳, 추가 알파벳 각각 입력)을 사용합니다.
   - 강제 선곡 버튼을 누르면 새 창이 뜹니다.
 ## Special Thanks
-Arpa__ (aka. 김편집 Kim Pyun Jip)
-[리턴](https://tgd.kr/s/arpa__/65506840)
-[emshdev](https://github.com/smh0505/rhythm_relay/issues/1) (aka. 문승현)
-[WannaHeal](https://github.com/smh0505/rhythm_relay/pull/2)
+Arpa__ (aka. 김편집 Kim Pyun Jip)  
+[리턴](https://tgd.kr/s/arpa__/65506840)  
+[emshdev](https://github.com/smh0505/rhythm_relay/issues/1) (aka. 문승현)  
+[WannaHeal](https://github.com/smh0505/rhythm_relay/pull/2)  
 And You.
