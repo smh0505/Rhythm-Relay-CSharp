@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ExcelDataReader;
 using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
 
 namespace 리듬_끝말잇기
 {
@@ -20,6 +14,9 @@ namespace 리듬_끝말잇기
         {
             InitializeComponent();
             TopMost = true;
+
+            TimerWindow timerWindow = new TimerWindow(this);
+            timerWindow.Show();
 
             Database = ReadData();
             ResetListBox();
@@ -84,13 +81,7 @@ namespace 리듬_끝말잇기
             foreach (var song in Database) listBox.Items.Add(song.name);
         }
 
-        private void ResetTimer()
-        {
-            time.reset();
-            timerText.Text = "00:00:00";
-        }
-
-        private void ResetTitle()
+        public void ResetTitle()
         {
             marquee1.Visible = false;
             label8.Visible = false;
@@ -125,7 +116,7 @@ namespace 리듬_끝말잇기
 
         // Input Control
 
-        private void EnableInput()
+        public void EnableInput()
         {
             inputBox.Enabled = true;
             checkBox.Enabled = true;
@@ -133,7 +124,7 @@ namespace 리듬_끝말잇기
             if (listBox.SelectedIndex != -1) addButton.Enabled = true;
         }
 
-        private void DisableInput()
+        public void DisableInput()
         {
             inputBox.Enabled = false;
             checkBox.Enabled = false;
@@ -152,18 +143,16 @@ namespace 리듬_끝말잇기
 
         // Button Control
 
-        private void EnableButtons()
+        public void EnableButtons()
         {
-            pauseButton.Enabled = true;
             if (SongsPlayed.Count > 0) editButton.Enabled = true;
             forceAddButton.Enabled = true;
             plusButton.Enabled = true;
             minusButton.Enabled = true;
         }
 
-        private void DisableButtons()
+        public void DisableButtons()
         {
-            pauseButton.Enabled = false;
             editButton.Enabled = false;
             forceAddButton.Enabled = false;
             plusButton.Enabled = false;
@@ -172,7 +161,7 @@ namespace 리듬_끝말잇기
 
         // Game Control
 
-        private void StartGame()
+        public void StartGame()
         {
             spinBox.Enabled = false;
             EnableInput();
@@ -181,15 +170,17 @@ namespace 리듬_끝말잇기
             EyeCatchText.Font = new Font("Kotra Leap", 24);
         }
 
-        private void EndGame()
+        public void EndGame()
         {
             ResetInput();
             DisableInput();
             DisableButtons();
-            PlayMusic();
+            if (!checkBox1.Checked) PlayMusic();
+
+            letterText.Text = "끝";
         }
 
-        private void ResetGame()
+        public void ResetGame()
         {
             spinBox.Enabled = true;
             ResetData();
@@ -197,6 +188,8 @@ namespace 리듬_끝말잇기
             Count = spinBox.Value;
             UpdateCount();
             StopMusic();
+
+            FirstSongPlayed = false;
         }
 
         // Music Control
@@ -213,6 +206,7 @@ namespace 리듬_끝말잇기
                 Reader = new AudioFileReader("Didn\'t Fall! (You Win).mp3");
                 OutputDevice.Init(Reader);
             }
+            OutputDevice.Volume = trackBar1.Value / 100f;
             OutputDevice.Play();
         }
 
@@ -239,24 +233,6 @@ namespace 리듬_끝말잇기
             }
         }
 
-        private struct Time
-        {
-            public int hour;
-            public int minute;
-            public int second;
-
-            public Time(int seconds) {
-                hour = seconds / 3600;
-                minute = (seconds / 60) % 60;
-                second = seconds % 60;
-            }
-
-            public void reset()
-            {
-                hour = 0; minute = 0; second = 0;
-            }
-        }
-
         // Lists
 
         private readonly List<Song> Database;
@@ -265,11 +241,11 @@ namespace 리듬_끝말잇기
 
         // Variables/Objects
 
+        public bool FirstSongPlayed = false;
+
         private Song LastSong;
 
         private decimal Count = 10;
-
-        private Time time = new Time(0);
 
         private WaveOutEvent OutputDevice;
 
@@ -290,63 +266,13 @@ namespace 리듬_끝말잇기
             UpdateCount();
         }
 
-        private void StartButton_Click(object sender, EventArgs e)
-        {
-            if (startButton.Text == "출근")
-            {
-                StartGame();
-
-                timer1.Start();
-                startButton.Text = "퇴근";
-            }
-            else if (startButton.Text == "퇴근")
-            {
-                if (marquee2.Items.Count == 0)
-                {
-                    MessageBox.Show("아직 첫 곡을 플레이하지 않았습니다.\n첫 곡을 플레이 해주세요.", 
-                        "리듬 끝말잇기 in C# Ver.1.0", MessageBoxButtons.OK);
-                }
-                else
-                {
-                    EndGame();
-
-                    timer1.Stop();
-                    startButton.Text = "리셋";
-                    pauseButton.Text = "일시정지";
-                }
-            }
-            else
-            {
-                ResetGame();
-
-                ResetTimer();
-                startButton.Text = "출근";
-
-                ResetTitle();
-            }
-        }
-
-        private void PauseButton_Click(object sender, EventArgs e)
-        {
-            if (pauseButton.Text == "일시정지")
-            {
-                timer1.Stop();
-                pauseButton.Text = "재개";
-
-                DisableInput();
-            }
-            else
-            {
-                timer1.Start();
-                pauseButton.Text = "일시정지";
-
-                EnableInput();
-            }
-        }
-
         private void AddButton_Click(object sender, EventArgs e)
         {
-            if (marquee2.Items.Count == 0) editButton.Enabled = true;
+            if (marquee2.Items.Count == 0)
+            {
+                editButton.Enabled = true;
+                FirstSongPlayed = true;
+            }
             foreach (var song in Database)
             {
                 if (song.name == listBox.SelectedItem.ToString())
@@ -395,33 +321,8 @@ namespace 리듬_끝말잇기
         private void MinusButton_Click(object sender, EventArgs e)
         {
             Count--;
+            if (Count < 0) Count = 0;
             UpdateCount();
-            if (Count == 0)
-            {
-                EndGame();
-
-                timer1.Stop();
-                startButton.Text = "리셋";
-
-                pauseButton.Enabled = false;
-                pauseButton.Text = "일시정지";
-            }
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            time.second += 1;
-            if (time.second == 60)
-            {
-                time.second = 0;
-                time.minute += 1;
-            }
-            if (time.minute == 60)
-            {
-                time.minute = 0;
-                time.hour += 1;
-            }
-            timerText.Text = String.Format("{0:00}:{1:00}:{2:00}", time.hour, time.minute, time.second);
         }
 
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
@@ -473,6 +374,7 @@ namespace 리듬_끝말잇기
                 {
                     editButton.Enabled = true;
                     LastSong.start = "A";
+                    FirstSongPlayed = true;
                 }
                 else LastSong.start = LastSong.end;
 
@@ -485,6 +387,16 @@ namespace 리듬_끝말잇기
                 UpdateTitle();
                 inputBox.Text = LastSong.end;
             }
+        }
+
+        private void TrackBar_Scroll(object sender, EventArgs e)
+        {
+            numericUpDown1.Value = trackBar1.Value;
+        }
+
+        private void NumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            trackBar1.Value = (int)numericUpDown1.Value;
         }
 
         private void OnPlaybackStopped(object sender, EventArgs e)

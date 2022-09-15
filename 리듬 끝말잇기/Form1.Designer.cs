@@ -28,19 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.listBox = new System.Windows.Forms.ListBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.spinBox = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
-            this.startButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.countText = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.timerText = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.checkBox = new System.Windows.Forms.CheckBox();
             this.comboBox = new System.Windows.Forms.ComboBox();
@@ -49,7 +44,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.pauseButton = new System.Windows.Forms.Button();
             this.addButton = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.editButton = new System.Windows.Forms.Button();
@@ -60,12 +54,15 @@
             this.EyeCatchText = new System.Windows.Forms.Label();
             this.letterText = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.marquee1 = new 리듬_끝말잇기.Marquee();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.panel9 = new System.Windows.Forms.Panel();
             this.marquee2 = new 리듬_끝말잇기.Marquee2();
-            this.marquee1 = new 리듬_끝말잇기.Marquee();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.spinBox)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -76,6 +73,8 @@
             this.panel7.SuspendLayout();
             this.panel8.SuspendLayout();
             this.panel9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // listBox
@@ -91,11 +90,6 @@
             this.listBox.TabIndex = 0;
             this.listBox.SelectedIndexChanged += new System.EventHandler(this.ListBox_SelectedIndexChanged);
             // 
-            // timer1
-            // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.Timer_Tick);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -107,7 +101,7 @@
             // 
             // spinBox
             // 
-            this.spinBox.Location = new System.Drawing.Point(80, 8);
+            this.spinBox.Location = new System.Drawing.Point(168, 7);
             this.spinBox.Maximum = new decimal(new int[] {
             51,
             0,
@@ -129,26 +123,17 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(146, 13);
+            this.label2.Location = new System.Drawing.Point(234, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(17, 12);
             this.label2.TabIndex = 3;
             this.label2.Text = "곡";
             // 
-            // startButton
-            // 
-            this.startButton.Location = new System.Drawing.Point(173, 6);
-            this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(75, 23);
-            this.startButton.TabIndex = 4;
-            this.startButton.Text = "출근";
-            this.startButton.UseVisualStyleBackColor = true;
-            this.startButton.Click += new System.EventHandler(this.StartButton_Click);
-            // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.startButton);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.spinBox);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(260, 40);
@@ -159,17 +144,15 @@
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel2.Controls.Add(this.countText);
             this.panel2.Controls.Add(this.label5);
-            this.panel2.Controls.Add(this.timerText);
-            this.panel2.Controls.Add(this.label3);
             this.panel2.Location = new System.Drawing.Point(260, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(264, 151);
+            this.panel2.Size = new System.Drawing.Size(264, 90);
             this.panel2.TabIndex = 6;
             // 
             // countText
             // 
             this.countText.Font = new System.Drawing.Font("강원교육모두 Bold", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.countText.Location = new System.Drawing.Point(31, 95);
+            this.countText.Location = new System.Drawing.Point(32, 35);
             this.countText.Name = "countText";
             this.countText.Size = new System.Drawing.Size(200, 40);
             this.countText.TabIndex = 3;
@@ -180,33 +163,12 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("강원교육모두 Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label5.Location = new System.Drawing.Point(63, 71);
+            this.label5.Location = new System.Drawing.Point(64, 11);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(134, 24);
             this.label5.TabIndex = 2;
             this.label5.Text = "퇴근까지 앞으로";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // timerText
-            // 
-            this.timerText.Font = new System.Drawing.Font("강원교육모두 Bold", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.timerText.Location = new System.Drawing.Point(31, 31);
-            this.timerText.Name = "timerText";
-            this.timerText.Size = new System.Drawing.Size(200, 40);
-            this.timerText.TabIndex = 1;
-            this.timerText.Text = "00:00:00";
-            this.timerText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("강원교육모두 Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.Location = new System.Drawing.Point(53, 7);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(153, 24);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "퇴근까지 걸린 시간";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel3
             // 
@@ -318,17 +280,6 @@
             this.panel4.Size = new System.Drawing.Size(260, 53);
             this.panel4.TabIndex = 9;
             // 
-            // pauseButton
-            // 
-            this.pauseButton.Enabled = false;
-            this.pauseButton.Location = new System.Drawing.Point(3, 4);
-            this.pauseButton.Name = "pauseButton";
-            this.pauseButton.Size = new System.Drawing.Size(122, 37);
-            this.pauseButton.TabIndex = 10;
-            this.pauseButton.Text = "일시정지";
-            this.pauseButton.UseVisualStyleBackColor = true;
-            this.pauseButton.Click += new System.EventHandler(this.PauseButton_Click);
-            // 
             // addButton
             // 
             this.addButton.Enabled = false;
@@ -400,7 +351,7 @@
             this.panel6.Controls.Add(this.letterText);
             this.panel6.Controls.Add(this.label8);
             this.panel6.Controls.Add(this.marquee1);
-            this.panel6.Location = new System.Drawing.Point(260, 151);
+            this.panel6.Location = new System.Drawing.Point(261, 89);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(264, 119);
             this.panel6.TabIndex = 18;
@@ -438,13 +389,22 @@
             this.label8.Text = "다음 이니셜";
             this.label8.Visible = false;
             // 
+            // marquee1
+            // 
+            this.marquee1.Interval = 50;
+            this.marquee1.Location = new System.Drawing.Point(-2, -2);
+            this.marquee1.Name = "marquee1";
+            this.marquee1.Size = new System.Drawing.Size(264, 73);
+            this.marquee1.Speed = 0;
+            this.marquee1.TabIndex = 17;
+            this.marquee1.Y = 0;
+            // 
             // panel7
             // 
             this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel7.Controls.Add(this.minusButton);
             this.panel7.Controls.Add(this.editButton);
             this.panel7.Controls.Add(this.plusButton);
-            this.panel7.Controls.Add(this.pauseButton);
             this.panel7.Controls.Add(this.forceAddButton);
             this.panel7.Controls.Add(this.addButton);
             this.panel7.Location = new System.Drawing.Point(0, 424);
@@ -456,7 +416,7 @@
             // 
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel8.Controls.Add(this.label9);
-            this.panel8.Location = new System.Drawing.Point(260, 268);
+            this.panel8.Location = new System.Drawing.Point(261, 211);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(264, 44);
             this.panel8.TabIndex = 20;
@@ -475,9 +435,9 @@
             // 
             this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel9.Controls.Add(this.marquee2);
-            this.panel9.Location = new System.Drawing.Point(260, 311);
+            this.panel9.Location = new System.Drawing.Point(260, 254);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(264, 311);
+            this.panel9.Size = new System.Drawing.Size(264, 368);
             this.panel9.TabIndex = 21;
             // 
             // marquee2
@@ -490,27 +450,55 @@
             this.marquee2.Speed = 0;
             this.marquee2.TabIndex = 0;
             // 
-            // marquee1
+            // trackBar1
             // 
-            this.marquee1.Interval = 50;
-            this.marquee1.Location = new System.Drawing.Point(-2, -2);
-            this.marquee1.Name = "marquee1";
-            this.marquee1.Size = new System.Drawing.Size(264, 73);
-            this.marquee1.Speed = 0;
-            this.marquee1.TabIndex = 17;
-            this.marquee1.Y = 0;
+            this.trackBar1.LargeChange = 2;
+            this.trackBar1.Location = new System.Drawing.Point(5, 564);
+            this.trackBar1.Maximum = 100;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(182, 45);
+            this.trackBar1.TabIndex = 1;
+            this.trackBar1.TabStop = false;
+            this.trackBar1.TickFrequency = 10;
+            this.trackBar1.Value = 50;
+            this.trackBar1.Scroll += new System.EventHandler(this.TrackBar_Scroll);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(193, 566);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.ReadOnly = true;
+            this.numericUpDown1.Size = new System.Drawing.Size(60, 21);
+            this.numericUpDown1.TabIndex = 22;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.NumericUpDown_ValueChanged);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(193, 593);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(60, 16);
+            this.checkBox1.TabIndex = 23;
+            this.checkBox1.Text = "음소거";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // mainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(524, 621);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.panel9);
             this.Controls.Add(this.panel8);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.spinBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel1);
@@ -523,6 +511,7 @@
             this.Text = "리듬 끝말잇기 in C# Ver.1.0";
             ((System.ComponentModel.ISupportInitialize)(this.spinBox)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -535,6 +524,8 @@
             this.panel7.ResumeLayout(false);
             this.panel8.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -543,17 +534,13 @@
         #endregion
 
         private System.Windows.Forms.ListBox listBox;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown spinBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label countText;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label timerText;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.CheckBox checkBox;
         private System.Windows.Forms.ComboBox comboBox;
@@ -562,7 +549,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Button pauseButton;
         private System.Windows.Forms.Button addButton;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Button editButton;
@@ -579,6 +565,9 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Panel panel9;
         private Marquee2 marquee2;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
