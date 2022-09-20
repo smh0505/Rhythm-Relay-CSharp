@@ -54,15 +54,15 @@
             this.EyeCatchText = new System.Windows.Forms.Label();
             this.letterText = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.marquee1 = new 리듬_끝말잇기.Marquee();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.panel9 = new System.Windows.Forms.Panel();
-            this.marquee2 = new 리듬_끝말잇기.Marquee2();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.marquee2 = new 리듬_끝말잇기.Marquee2();
+            this.marquee1 = new 리듬_끝말잇기.Marquee();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.spinBox)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -389,16 +389,6 @@
             this.label8.Text = "다음 이니셜";
             this.label8.Visible = false;
             // 
-            // marquee1
-            // 
-            this.marquee1.Interval = 50;
-            this.marquee1.Location = new System.Drawing.Point(-2, -2);
-            this.marquee1.Name = "marquee1";
-            this.marquee1.Size = new System.Drawing.Size(264, 73);
-            this.marquee1.Speed = 0;
-            this.marquee1.TabIndex = 17;
-            this.marquee1.Y = 0;
-            // 
             // panel7
             // 
             this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -440,16 +430,6 @@
             this.panel9.Size = new System.Drawing.Size(264, 368);
             this.panel9.TabIndex = 21;
             // 
-            // marquee2
-            // 
-            this.marquee2.Interval = 100;
-            this.marquee2.Items = null;
-            this.marquee2.Location = new System.Drawing.Point(-2, -2);
-            this.marquee2.Name = "marquee2";
-            this.marquee2.Size = new System.Drawing.Size(264, 311);
-            this.marquee2.Speed = 0;
-            this.marquee2.TabIndex = 0;
-            // 
             // trackBar1
             // 
             this.trackBar1.LargeChange = 2;
@@ -465,7 +445,7 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(193, 566);
+            this.numericUpDown1.Location = new System.Drawing.Point(193, 588);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.ReadOnly = true;
             this.numericUpDown1.Size = new System.Drawing.Size(60, 21);
@@ -477,22 +457,41 @@
             0});
             this.numericUpDown1.ValueChanged += new System.EventHandler(this.NumericUpDown_ValueChanged);
             // 
-            // checkBox1
+            // marquee2
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(193, 593);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(60, 16);
-            this.checkBox1.TabIndex = 23;
-            this.checkBox1.Text = "음소거";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.marquee2.Interval = 100;
+            this.marquee2.Items = null;
+            this.marquee2.Location = new System.Drawing.Point(-2, -2);
+            this.marquee2.Name = "marquee2";
+            this.marquee2.Size = new System.Drawing.Size(264, 368);
+            this.marquee2.Speed = 0;
+            this.marquee2.TabIndex = 0;
+            // 
+            // marquee1
+            // 
+            this.marquee1.Interval = 50;
+            this.marquee1.Location = new System.Drawing.Point(-2, -2);
+            this.marquee1.Name = "marquee1";
+            this.marquee1.Size = new System.Drawing.Size(264, 73);
+            this.marquee1.Speed = 0;
+            this.marquee1.TabIndex = 17;
+            this.marquee1.Y = 0;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(193, 568);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.TabIndex = 23;
+            this.label3.Text = "음량";
             // 
             // mainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(524, 621);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.panel9);
@@ -507,8 +506,9 @@
             this.Controls.Add(this.panel7);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "mainWindow";
-            this.Text = "리듬 끝말잇기 in C# Ver.1.0";
+            this.Text = "리듬 끝말잇기 in C# Ver.1.2";
             ((System.ComponentModel.ISupportInitialize)(this.spinBox)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -567,7 +567,7 @@
         private Marquee2 marquee2;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label3;
     }
 }
 

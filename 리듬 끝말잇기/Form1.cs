@@ -18,14 +18,20 @@ namespace 리듬_끝말잇기
             TimerWindow timerWindow = new TimerWindow(this);
             timerWindow.Show();
 
+            RouletteWindow rouletteWindow = new RouletteWindow(this);
+            rouletteWindow.Show();
+
             Database = ReadData();
             ResetListBox();
 
             comboBox.SelectedIndex = 0;
             InitTitle();
+
+            OutputDevice.PlaybackStopped += OnPlaybackStopped;
+            OutputDevice.Init(Reader);
         }
 
-    // Methods
+        // Methods
 
         // Initialization
 
@@ -175,7 +181,7 @@ namespace 리듬_끝말잇기
             ResetInput();
             DisableInput();
             DisableButtons();
-            if (!checkBox1.Checked) PlayMusic();
+            PlayMusic();
 
             letterText.Text = "끝";
         }
@@ -196,23 +202,12 @@ namespace 리듬_끝말잇기
 
         private void PlayMusic()
         {
-            if (OutputDevice == null)
-            {
-                OutputDevice = new WaveOutEvent();
-                OutputDevice.PlaybackStopped += OnPlaybackStopped;
-            }
-            if (Reader == null)
-            {
-                Reader = new AudioFileReader("Didn\'t Fall! (You Win).mp3");
-                OutputDevice.Init(Reader);
-            }
-            OutputDevice.Volume = trackBar1.Value / 100f;
             OutputDevice.Play();
         }
 
         private void StopMusic()
         {
-            OutputDevice?.Stop();
+            OutputDevice.Stop();
         }
 
     // Structures and Variables
@@ -247,9 +242,9 @@ namespace 리듬_끝말잇기
 
         private decimal Count = 10;
 
-        private WaveOutEvent OutputDevice;
+        private WaveOutEvent OutputDevice = new WaveOutEvent();
 
-        private AudioFileReader Reader;
+        private AudioFileReader Reader = new AudioFileReader("Didn\'t Fall! (You Win).mp3");
 
         public string LastAlpha { get; set; }
 
@@ -392,11 +387,13 @@ namespace 리듬_끝말잇기
         private void TrackBar_Scroll(object sender, EventArgs e)
         {
             numericUpDown1.Value = trackBar1.Value;
+            OutputDevice.Volume = trackBar1.Value / 100f;
         }
 
         private void NumericUpDown_ValueChanged(object sender, EventArgs e)
         {
             trackBar1.Value = (int)numericUpDown1.Value;
+            OutputDevice.Volume = trackBar1.Value / 100f;
         }
 
         private void OnPlaybackStopped(object sender, EventArgs e)

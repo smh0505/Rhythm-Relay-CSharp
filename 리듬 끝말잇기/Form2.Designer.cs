@@ -150,8 +150,9 @@
             this.Controls.Add(this.marquee1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "childWindow";
-            this.Text = "리듬 끝말잇기 in C# Ver.1.0";
+            this.Text = "리듬 끝말잇기";
             this.ResumeLayout(false);
             this.PerformLayout();
 

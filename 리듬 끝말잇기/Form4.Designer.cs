@@ -92,6 +92,9 @@
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.timerText);
             this.Controls.Add(this.label3);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "TimerWindow";
             this.Text = "리듬 끝말잇기";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TimerWindow_FormClosed);
