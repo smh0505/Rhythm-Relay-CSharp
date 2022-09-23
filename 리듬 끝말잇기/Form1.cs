@@ -15,9 +15,6 @@ namespace 리듬_끝말잇기
             InitializeComponent();
             TopMost = true;
 
-            TimerWindow timerWindow = new TimerWindow(this);
-            timerWindow.Show();
-
             RouletteWindow rouletteWindow = new RouletteWindow(this);
             rouletteWindow.Show();
 
