@@ -84,7 +84,7 @@ namespace 리듬_끝말잇기
                     else rouletteList.SetItemChecked(rouletteList.Items.Count - 1, true);
                     break;
                 case "처음부터 다시하기":
-                    // parent.label5.text = "경) 태초마을 복귀 (축";
+                    parent.Header = "경) 태초마을 (축";
                     break;
                 default:
                     var x = rouletteList.Items.IndexOf("옵션 없음");

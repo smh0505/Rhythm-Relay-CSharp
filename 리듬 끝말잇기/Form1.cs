@@ -196,6 +196,7 @@ namespace 리듬_끝말잇기
             StopMusic();
 
             FirstSongPlayed = false;
+            label5.Text = "퇴근까지 앞으로";
         }
 
         // Music Control
@@ -249,6 +250,11 @@ namespace 리듬_끝말잇기
         public string LastAlpha { get; set; }
 
         public string LastTitle { get; set; }
+
+        public string Header
+        {
+            set { label5.Text = value; }
+        }
 
     // Widget Controls
 
