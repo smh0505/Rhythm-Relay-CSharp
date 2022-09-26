@@ -152,7 +152,7 @@
             // 
             // countText
             // 
-            this.countText.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.countText.Font = new System.Drawing.Font("강원교육모두 Bold", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.countText.Location = new System.Drawing.Point(32, 35);
             this.countText.Name = "countText";
             this.countText.Size = new System.Drawing.Size(200, 40);
@@ -163,10 +163,10 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label5.Font = new System.Drawing.Font("강원교육모두 Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label5.Location = new System.Drawing.Point(64, 11);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(130, 25);
+            this.label5.Size = new System.Drawing.Size(134, 24);
             this.label5.TabIndex = 2;
             this.label5.Text = "퇴근까지 앞으로";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -265,10 +265,10 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label7.Font = new System.Drawing.Font("코트라 도약체 ", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label7.Location = new System.Drawing.Point(4, 6);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(215, 33);
+            this.label7.Size = new System.Drawing.Size(249, 34);
             this.label7.TabIndex = 8;
             this.label7.Text = "리듬 끝말잇기 시즌2";
             // 
@@ -359,7 +359,7 @@
             // 
             // EyeCatchText
             // 
-            this.EyeCatchText.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.EyeCatchText.Font = new System.Drawing.Font("코트라 도약체 ", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.EyeCatchText.Location = new System.Drawing.Point(-2, -2);
             this.EyeCatchText.Name = "EyeCatchText";
             this.EyeCatchText.Size = new System.Drawing.Size(264, 119);
@@ -369,7 +369,7 @@
             // 
             // letterText
             // 
-            this.letterText.Font = new System.Drawing.Font("Microsoft Sans Serif", 32.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.letterText.Font = new System.Drawing.Font("코트라 도약체 ", 32.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.letterText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.letterText.Location = new System.Drawing.Point(161, 61);
             this.letterText.Name = "letterText";
@@ -382,10 +382,10 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label8.Font = new System.Drawing.Font("코트라 도약체 ", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label8.Location = new System.Drawing.Point(4, 78);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(126, 31);
+            this.label8.Size = new System.Drawing.Size(140, 33);
             this.label8.TabIndex = 18;
             this.label8.Text = "다음 이니셜";
             this.label8.Visible = false;
@@ -425,7 +425,7 @@
             // 
             // label9
             // 
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label9.Font = new System.Drawing.Font("강원교육모두 Bold", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label9.Location = new System.Drawing.Point(1, -2);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(257, 40);
