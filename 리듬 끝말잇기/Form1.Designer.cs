@@ -33,9 +33,6 @@
             this.spinBox = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.countText = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.checkBox = new System.Windows.Forms.CheckBox();
             this.comboBox = new System.Windows.Forms.ComboBox();
@@ -50,29 +47,24 @@
             this.forceAddButton = new System.Windows.Forms.Button();
             this.plusButton = new System.Windows.Forms.Button();
             this.minusButton = new System.Windows.Forms.Button();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.EyeCatchText = new System.Windows.Forms.Label();
-            this.letterText = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.marquee1 = new 리듬_끝말잇기.Marquee();
             this.panel7 = new System.Windows.Forms.Panel();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.marquee2 = new 리듬_끝말잇기.Marquee2();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
+            this.pauseButton = new System.Windows.Forms.Button();
+            this.startButton = new System.Windows.Forms.Button();
+            this.nextButton = new System.Windows.Forms.Button();
+            this.connectButton = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.keyInput = new System.Windows.Forms.TextBox();
+            this.rouletteList = new System.Windows.Forms.CheckedListBox();
             ((System.ComponentModel.ISupportInitialize)(this.spinBox)).BeginInit();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
-            this.panel8.SuspendLayout();
-            this.panel9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
@@ -138,37 +130,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(260, 40);
             this.panel1.TabIndex = 5;
-            // 
-            // panel2
-            // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Controls.Add(this.countText);
-            this.panel2.Controls.Add(this.label5);
-            this.panel2.Location = new System.Drawing.Point(260, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(264, 90);
-            this.panel2.TabIndex = 6;
-            // 
-            // countText
-            // 
-            this.countText.Font = new System.Drawing.Font("강원교육모두 Bold", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.countText.Location = new System.Drawing.Point(32, 35);
-            this.countText.Name = "countText";
-            this.countText.Size = new System.Drawing.Size(200, 40);
-            this.countText.TabIndex = 3;
-            this.countText.Text = "10곡 남음";
-            this.countText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("강원교육모두 Bold", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label5.Location = new System.Drawing.Point(64, 11);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(134, 24);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "퇴근까지 앞으로";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel3
             // 
@@ -344,61 +305,6 @@
             this.minusButton.UseVisualStyleBackColor = true;
             this.minusButton.Click += new System.EventHandler(this.MinusButton_Click);
             // 
-            // panel6
-            // 
-            this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel6.Controls.Add(this.EyeCatchText);
-            this.panel6.Controls.Add(this.letterText);
-            this.panel6.Controls.Add(this.label8);
-            this.panel6.Controls.Add(this.marquee1);
-            this.panel6.Location = new System.Drawing.Point(261, 89);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(264, 119);
-            this.panel6.TabIndex = 18;
-            // 
-            // EyeCatchText
-            // 
-            this.EyeCatchText.Font = new System.Drawing.Font("코트라 도약체 ", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.EyeCatchText.Location = new System.Drawing.Point(-2, -2);
-            this.EyeCatchText.Name = "EyeCatchText";
-            this.EyeCatchText.Size = new System.Drawing.Size(264, 119);
-            this.EyeCatchText.TabIndex = 20;
-            this.EyeCatchText.Text = "리듬\r\n끝말잇기";
-            this.EyeCatchText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // letterText
-            // 
-            this.letterText.Font = new System.Drawing.Font("코트라 도약체 ", 32.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.letterText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.letterText.Location = new System.Drawing.Point(161, 61);
-            this.letterText.Name = "letterText";
-            this.letterText.Size = new System.Drawing.Size(97, 51);
-            this.letterText.TabIndex = 19;
-            this.letterText.Text = "A/A";
-            this.letterText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.letterText.Visible = false;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("코트라 도약체 ", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label8.Location = new System.Drawing.Point(4, 78);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(140, 33);
-            this.label8.TabIndex = 18;
-            this.label8.Text = "다음 이니셜";
-            this.label8.Visible = false;
-            // 
-            // marquee1
-            // 
-            this.marquee1.Interval = 50;
-            this.marquee1.Location = new System.Drawing.Point(-2, -2);
-            this.marquee1.Name = "marquee1";
-            this.marquee1.Size = new System.Drawing.Size(264, 73);
-            this.marquee1.Speed = 0;
-            this.marquee1.TabIndex = 17;
-            this.marquee1.Y = 0;
-            // 
             // panel7
             // 
             this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -411,44 +317,6 @@
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(260, 135);
             this.panel7.TabIndex = 19;
-            // 
-            // panel8
-            // 
-            this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel8.Controls.Add(this.label9);
-            this.panel8.Location = new System.Drawing.Point(261, 211);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(264, 44);
-            this.panel8.TabIndex = 20;
-            // 
-            // label9
-            // 
-            this.label9.Font = new System.Drawing.Font("강원교육모두 Bold", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label9.Location = new System.Drawing.Point(1, -2);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(257, 40);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "플레이한 목록";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // panel9
-            // 
-            this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel9.Controls.Add(this.marquee2);
-            this.panel9.Location = new System.Drawing.Point(260, 254);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(264, 368);
-            this.panel9.TabIndex = 21;
-            // 
-            // marquee2
-            // 
-            this.marquee2.Interval = 100;
-            this.marquee2.Items = null;
-            this.marquee2.Location = new System.Drawing.Point(-2, -2);
-            this.marquee2.Name = "marquee2";
-            this.marquee2.Size = new System.Drawing.Size(264, 368);
-            this.marquee2.Speed = 0;
-            this.marquee2.TabIndex = 0;
             // 
             // trackBar1
             // 
@@ -486,44 +354,122 @@
             this.label3.TabIndex = 23;
             this.label3.Text = "음량";
             // 
+            // pauseButton
+            // 
+            this.pauseButton.Enabled = false;
+            this.pauseButton.Location = new System.Drawing.Point(393, 9);
+            this.pauseButton.Name = "pauseButton";
+            this.pauseButton.Size = new System.Drawing.Size(119, 35);
+            this.pauseButton.TabIndex = 31;
+            this.pauseButton.Text = "일시정지";
+            this.pauseButton.UseVisualStyleBackColor = true;
+            this.pauseButton.Click += new System.EventHandler(this.PauseButton_Click);
+            // 
+            // startButton
+            // 
+            this.startButton.Location = new System.Drawing.Point(266, 9);
+            this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(121, 35);
+            this.startButton.TabIndex = 30;
+            this.startButton.Text = "출근";
+            this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.StartButton_Click);
+            // 
+            // nextButton
+            // 
+            this.nextButton.Enabled = false;
+            this.nextButton.Location = new System.Drawing.Point(393, 275);
+            this.nextButton.Name = "nextButton";
+            this.nextButton.Size = new System.Drawing.Size(119, 35);
+            this.nextButton.TabIndex = 29;
+            this.nextButton.Text = "다음 역";
+            this.nextButton.UseVisualStyleBackColor = true;
+            this.nextButton.Click += new System.EventHandler(this.NextButton_Click);
+            // 
+            // connectButton
+            // 
+            this.connectButton.Enabled = false;
+            this.connectButton.Location = new System.Drawing.Point(266, 275);
+            this.connectButton.Name = "connectButton";
+            this.connectButton.Size = new System.Drawing.Size(121, 36);
+            this.connectButton.TabIndex = 28;
+            this.connectButton.Text = "연결";
+            this.connectButton.UseVisualStyleBackColor = true;
+            this.connectButton.Click += new System.EventHandler(this.ConnectButton_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(266, 217);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(136, 12);
+            this.label5.TabIndex = 27;
+            this.label5.Text = "투네이션 통합 위젯 URL";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(266, 233);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(186, 12);
+            this.label8.TabIndex = 26;
+            this.label8.Text = "https://toon.at/widget/alertbox/";
+            // 
+            // keyInput
+            // 
+            this.keyInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.keyInput.Location = new System.Drawing.Point(266, 248);
+            this.keyInput.Name = "keyInput";
+            this.keyInput.PasswordChar = '●';
+            this.keyInput.Size = new System.Drawing.Size(246, 21);
+            this.keyInput.TabIndex = 25;
+            this.keyInput.TextChanged += new System.EventHandler(this.KeyInput_TextChanged);
+            // 
+            // rouletteList
+            // 
+            this.rouletteList.FormattingEnabled = true;
+            this.rouletteList.Location = new System.Drawing.Point(266, 50);
+            this.rouletteList.Name = "rouletteList";
+            this.rouletteList.Size = new System.Drawing.Size(246, 164);
+            this.rouletteList.TabIndex = 24;
+            // 
             // mainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(524, 621);
+            this.Controls.Add(this.pauseButton);
+            this.Controls.Add(this.startButton);
+            this.Controls.Add(this.nextButton);
+            this.Controls.Add(this.connectButton);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.keyInput);
+            this.Controls.Add(this.rouletteList);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.trackBar1);
-            this.Controls.Add(this.panel9);
-            this.Controls.Add(this.panel8);
             this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel5);
-            this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel7);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "mainWindow";
             this.Text = "리듬 끝말잇기 in C# Ver.1.2";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWindow_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.spinBox)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel5.ResumeLayout(false);
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
             this.panel7.ResumeLayout(false);
-            this.panel8.ResumeLayout(false);
-            this.panel9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
@@ -538,9 +484,6 @@
         private System.Windows.Forms.NumericUpDown spinBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label countText;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.CheckBox checkBox;
         private System.Windows.Forms.ComboBox comboBox;
@@ -555,19 +498,18 @@
         private System.Windows.Forms.Button forceAddButton;
         private System.Windows.Forms.Button plusButton;
         private System.Windows.Forms.Button minusButton;
-        private Marquee marquee1;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Label letterText;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label EyeCatchText;
         private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Panel panel9;
-        private Marquee2 marquee2;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button pauseButton;
+        private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.Button nextButton;
+        private System.Windows.Forms.Button connectButton;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox keyInput;
+        private System.Windows.Forms.CheckedListBox rouletteList;
     }
 }
 

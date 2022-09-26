@@ -2,48 +2,43 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ExcelDataReader;
 using NAudio.Wave;
+using Websocket.Client;
 
 namespace 리듬_끝말잇기
 {
     public partial class mainWindow : Form
     {
+        private readonly RouletteWindow rw = null;
+
         public mainWindow()
         {
             InitializeComponent();
             TopMost = true;
-
-            RouletteWindow rouletteWindow = new RouletteWindow(this);
-            rouletteWindow.Show();
+            rw = new RouletteWindow(this);
+            rw.Show();
 
             Database = ReadData();
             ResetListBox();
 
             comboBox.SelectedIndex = 0;
-            InitTitle();
 
             OutputDevice.PlaybackStopped += OnPlaybackStopped;
             OutputDevice.Init(Reader);
+
+            rouletteThread = new Thread(new ThreadStart(Connect));
         }
 
-        // Methods
+    // Methods
 
         // Initialization
-
-        private void InitTitle()
-        {
-            marquee2.Items = new List<string>();
-            ResetTitle();
-            
-            marquee1.Speed = 1;
-            marquee1.Interval = 1000 / 60;
-            marquee1.Y = 10;
-
-            marquee2.Speed = 2;
-            marquee2.Interval = 1000 / 30;
-        }
 
         private List<Song> ReadData()
         {
@@ -63,6 +58,7 @@ namespace 리듬_끝말잇기
                         end = reader.GetValue(3).ToString()
                     };
                     list.Add(s);
+                    if (SongNames.IndexOf(s.name) == -1) SongNames.Add(s.name);
                 }
             }
 
@@ -75,51 +71,23 @@ namespace 리듬_끝말잇기
         {
             foreach (var song in SongsPlayed) Database.Add(song);
             SongsPlayed.Clear();
+
+            foreach (var song in Database)
+                if (SongNames.IndexOf(song.name) == -1) SongNames.Add(song.name);
+            SongNames.Sort();
+
             ResetListBox();
         }
 
         private void ResetListBox()
         {
             listBox.Items.Clear();
-            foreach (var song in Database) listBox.Items.Add(song.name);
-        }
-
-        public void ResetTitle()
-        {
-            marquee1.Visible = false;
-            label8.Visible = false;
-            letterText.Visible = false;
-            
-            EyeCatchText.Visible = true;
-            EyeCatchText.Text = "리듬\n끝말잇기";
-
-            marquee2.Items.Clear();
-            marquee2.UpdateItems();
-        }
-
-        // Update
-        
-        private void UpdateCount()
-        {
-            countText.Text = String.Format("{0}곡 남음", Count);
-        }
-
-        private void UpdateTitle()
-        {
-            if (!marquee1.Visible) marquee1.Visible = true;
-            if (!label8.Visible) label8.Visible = true;
-            if (!letterText.Visible) letterText.Visible = true;
-            if (EyeCatchText.Visible) EyeCatchText.Visible = false;
-
-            marquee1.Text = LastSong.name;
-            letterText.Text = LastSong.end;
-            marquee2.Items.Add(LastSong.name);
-            marquee2.UpdateItems();
+            listBox.Items.AddRange(SongNames.ToArray());
         }
 
         // Input Control
 
-        public void EnableInput()
+        private void EnableInput()
         {
             inputBox.Enabled = true;
             checkBox.Enabled = true;
@@ -127,13 +95,20 @@ namespace 리듬_끝말잇기
             if (listBox.SelectedIndex != -1) addButton.Enabled = true;
         }
 
-        public void DisableInput()
+        private void DisableInput()
         {
             inputBox.Enabled = false;
             checkBox.Enabled = false;
             comboBox.Enabled = false;
             listBox.Enabled = false;
             addButton.Enabled = false;
+        }
+
+        private void WeakResetInput()
+        {
+            checkBox.Checked = false;
+            comboBox.SelectedIndex = 0;
+            listBox.ClearSelected();
         }
 
         private void ResetInput()
@@ -146,7 +121,7 @@ namespace 리듬_끝말잇기
 
         // Button Control
 
-        public void EnableButtons()
+        private void EnableButtons()
         {
             if (SongsPlayed.Count > 0) editButton.Enabled = true;
             forceAddButton.Enabled = true;
@@ -154,7 +129,7 @@ namespace 리듬_끝말잇기
             minusButton.Enabled = true;
         }
 
-        public void DisableButtons()
+        private void DisableButtons()
         {
             editButton.Enabled = false;
             forceAddButton.Enabled = false;
@@ -164,36 +139,35 @@ namespace 리듬_끝말잇기
 
         // Game Control
 
-        public void StartGame()
+        private void StartGame()
         {
             spinBox.Enabled = false;
             EnableInput();
             EnableButtons();
-            EyeCatchText.Text = "첫곡을\n플레이해주세요!";
-            EyeCatchText.Font = new Font("Kotra Leap", 24);
+            rw.EyeCatch = "첫 곡을\n플레이해주세요!";
         }
 
-        public void EndGame()
+        private void EndGame()
         {
             ResetInput();
             DisableInput();
             DisableButtons();
             PlayMusic();
 
-            letterText.Text = "끝";
+            rw.EndLetter = "끝";
         }
 
-        public void ResetGame()
+        private void ResetGame()
         {
             spinBox.Enabled = true;
             ResetData();
 
             Count = spinBox.Value;
-            UpdateCount();
+            rw.UpdateCount(Count);
             StopMusic();
 
             FirstSongPlayed = false;
-            label5.Text = "퇴근까지 앞으로";
+            rw.LabelText = "퇴근까지 앞으로";
         }
 
         // Music Control
@@ -232,9 +206,11 @@ namespace 리듬_끝말잇기
 
         private readonly List<Song> SongsPlayed = new List<Song>();
 
+        private List<string> SongNames = new List<string>();
+
         // Variables/Objects
 
-        public bool FirstSongPlayed = false;
+        private bool FirstSongPlayed = false;
 
         private Song LastSong;
 
@@ -248,12 +224,13 @@ namespace 리듬_끝말잇기
 
         public string LastTitle { get; set; }
 
-        public string Header
-        {
-            set { label5.Text = value; }
-        }
+        private string payload;
+
+        private readonly Thread rouletteThread;
 
     // Widget Controls
+
+        // Input
 
         private void SpinBox_ValueChanged(object sender, EventArgs e)
         {
@@ -261,12 +238,12 @@ namespace 리듬_끝말잇기
             else if (spinBox.Value == 51) spinBox.Value = 1;
 
             Count = spinBox.Value;
-            UpdateCount();
+            rw.UpdateCount(Count);
         }
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            if (marquee2.Items.Count == 0)
+            if (rw.SongsUsedListCount == 0)
             {
                 editButton.Enabled = true;
                 FirstSongPlayed = true;
@@ -296,14 +273,14 @@ namespace 리듬_끝말잇기
                     }
                     if (checkBox.Checked) LastSong.end = comboBox.SelectedItem.ToString();
 
-                    ResetInput();
-                    ResetListBox();
+                    WeakResetInput();
+                    SongNames.Remove(song.name);
 
                     SongsPlayed.Add(song);
                     Database.Remove(song);
                     
                     inputBox.Text = LastSong.end;
-                    UpdateTitle();
+                    rw.UpdateTitle(LastSong.name, LastSong.end);
 
                     break;
                 }
@@ -313,14 +290,14 @@ namespace 리듬_끝말잇기
         private void PlusButton_Click(object sender, EventArgs e)
         {
             Count++;
-            UpdateCount();
+            rw.UpdateCount(Count);
         }
 
         private void MinusButton_Click(object sender, EventArgs e)
         {
             Count--;
             if (Count < 0) Count = 0;
-            UpdateCount();
+            rw.UpdateCount(Count);
         }
 
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
@@ -332,13 +309,16 @@ namespace 리듬_끝말잇기
         {
             listBox.ClearSelected();
             listBox.Items.Clear();
-            foreach (var song in Database)
+
+            List<string> namesAfterSearch = new List<string>();
+            foreach (var song in SongNames)
             {
-                if (song.name.IndexOf(inputBox.Text, StringComparison.OrdinalIgnoreCase) == 0)
+                if (song.IndexOf(inputBox.Text, StringComparison.OrdinalIgnoreCase) == 0)
                 {
-                    listBox.Items.Add(song.name);
+                    namesAfterSearch.Add(song);
                 }
             }
+            listBox.Items.AddRange(namesAfterSearch.ToArray());
         }
 
         private void ListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -358,7 +338,7 @@ namespace 리듬_끝말잇기
             if (child.ShowDialog() == DialogResult.OK)
             {
                 LastSong.end = LastAlpha;
-                letterText.Text = LastSong.end;
+                rw.EndLetter = LastSong.end;
                 inputBox.Text = LastSong.end;
             }
         }
@@ -368,7 +348,7 @@ namespace 리듬_끝말잇기
             childWindow2 child = new childWindow2(this);
             if (child.ShowDialog() == DialogResult.OK)
             {
-                if (marquee2.Items.Count == 0)
+                if (rw.SongsUsedListCount == 0)
                 {
                     editButton.Enabled = true;
                     LastSong.start = "A";
@@ -379,13 +359,14 @@ namespace 리듬_끝말잇기
                 LastSong.name = LastTitle;
                 LastSong.end = LastAlpha;
 
-                ResetInput();
-                ResetListBox();
+                WeakResetInput();
 
-                UpdateTitle();
+                rw.UpdateTitle(LastSong.name, LastSong.end);
                 inputBox.Text = LastSong.end;
             }
         }
+
+        // Sound Control
 
         private void TrackBar_Scroll(object sender, EventArgs e)
         {
@@ -405,6 +386,183 @@ namespace 리듬_끝말잇기
             OutputDevice = null;
             Reader.Dispose();
             Reader = null;
+        }
+
+        // Game Control
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            if (startButton.Text == "출근")
+            {
+                StartGame();
+                rw.StartTimer();
+                startButton.Text = "퇴근";
+                pauseButton.Enabled = true;
+            }
+            else if (startButton.Text == "퇴근")
+            {
+                if (!FirstSongPlayed)
+                {
+                    MessageBox.Show("아직 첫 곡을 플레이하지 않았습니다.\n" +
+                        "첫 곡을 플레이해주세요.",
+                        "리듬 끝말잇기");
+                }
+                else
+                {
+                    EndGame();
+                    rw.StopTimer();
+                    startButton.Text = "리셋";
+                    pauseButton.Enabled = false;
+                    pauseButton.Text = "일시정지";
+                }
+            }
+            else
+            {
+                ResetGame();
+                rw.ResetTimer();
+                startButton.Text = "출근";
+                rw.ResetTitle();
+            }
+        }
+
+        private void PauseButton_Click(object sender, EventArgs e)
+        {
+            if (pauseButton.Text == "일시정지")
+            {
+                rw.StopTimer();
+                pauseButton.Text = "재개";
+                DisableInput();
+                DisableButtons();
+            }
+            else
+            {
+                rw.StartTimer();
+                pauseButton.Text = "일시정지";
+                EnableInput();
+                EnableButtons();
+            }
+        }
+
+        private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            rouletteThread.Abort();
+        }
+
+        // Toonation Client
+
+        private delegate void rouletteInvoker(string rValue);
+        
+        private async Task LoadPayload(string url)
+        {
+            HttpClient client = new HttpClient();
+            using (var response = await client.GetAsync(url))
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    var body = await response.Content.ReadAsStringAsync();
+                    Match match = Regex.Match(body, @".payload.:.[\w]*.");
+                    Match match1 = Regex.Match(match.Value, @"[\w]{8,}");
+                    payload = match1.Value;
+                }
+            }
+        }
+
+        private void Connect()
+        {
+            Uri uri = new Uri("wss://toon.at:8071/" + payload);
+            var exitEvent = new ManualResetEvent(false);
+
+            using (WebsocketClient client = new WebsocketClient(uri))
+            {
+                client.MessageReceived.Subscribe(msg =>
+                {
+                    if (msg.ToString().Contains("roulette"))
+                    {
+                        var roulette = Regex.Match(msg.ToString(), "\"message\":\"[^\"]* - [^\"]*\"").Value.Substring(10);
+                        var rValue = roulette.Split('-')[1].Replace("\"", "");
+                        rouletteList.BeginInvoke(new rouletteInvoker(ReadRoulette), rValue);
+                    }
+                });
+                client.Start();
+                exitEvent.WaitOne();
+            }
+        }
+
+        private void ReadRoulette(string rValue)
+        {
+            string option = rValue.Substring(1);
+            if (!option.Contains("꽝"))
+                option = option.Substring(option.IndexOf(']') + 2);
+
+            switch (option)
+            {
+                case "꽝":
+                case "따뜻한 위로와 격려":
+                    break;
+                case "알파벳 랜덤으로 변경":
+                    if (rouletteList.Items.Count == 0)
+                        rouletteList.Items.Add("옵션 없음", true);
+                    else if (rouletteList.GetItemChecked(rouletteList.Items.Count - 1))
+                        rouletteList.Items.Add("옵션 없음", true);
+                    else rouletteList.SetItemChecked(rouletteList.Items.Count - 1, true);
+                    break;
+                case "처음부터 다시하기":
+                    rw.LabelText = "경) 태초마을 (축";
+                    break;
+                default:
+                    var x = rouletteList.Items.IndexOf("옵션 없음");
+                    if (x != -1)
+                    {
+                        rouletteList.Items.RemoveAt(x);
+                        rouletteList.Items.Insert(x, option);
+                        rouletteList.SetItemChecked(x, true);
+                    }
+                    else rouletteList.Items.Add(option, false);
+                    break;
+            }
+            if (!nextButton.Enabled) nextButton.Enabled = true;
+        }
+
+        private void KeyInput_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(keyInput.Text)) connectButton.Enabled = false;
+            else connectButton.Enabled = true;
+        }
+
+        private async void ConnectButton_Click(object sender, EventArgs e)
+        {
+            keyInput.Enabled = false;
+            connectButton.Enabled = false;
+            await LoadPayload("https://toon.at/widget/alertbox/" + keyInput.Text);
+            if (!string.IsNullOrEmpty(payload))
+            {
+                rouletteThread.Start();
+                MessageBox.Show(this, "투네이션 연결에 성공했습니다.",
+                    "리듬 끝말잇기");
+            }
+            else
+            {
+                MessageBox.Show(this, "투네이션 연결에 실패했습니다.\n" +
+                    "다시 시도해주세요.", "리듬 끝말잇기");
+                keyInput.Text = "";
+                keyInput.Enabled = true;
+            }
+        }
+
+        private void NextButton_Click(object sender, EventArgs e)
+        {
+            if (rouletteList.Items.Count > 0)
+            {
+                var optionString = rouletteList.Items[0].ToString();
+                if (rouletteList.GetItemChecked(0)) optionString += " + 알파벳 리롤";
+                rw.OptionText = optionString;
+                rouletteList.Items.RemoveAt(0);
+            }
+            else
+            {
+                rw.OptionText = "옵션 없음";
+                nextButton.Enabled = false;
+            }
         }
     }
 }
