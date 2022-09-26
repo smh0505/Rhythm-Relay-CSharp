@@ -10,12 +10,14 @@ namespace 리듬_끝말잇기
 {
     public partial class mainWindow : Form
     {
+        Logger logger;
+        RouletteWindow rouletteWindow;
         public mainWindow()
         {
             InitializeComponent();
             TopMost = true;
 
-            RouletteWindow rouletteWindow = new RouletteWindow(this);
+            rouletteWindow = new RouletteWindow(this);
             rouletteWindow.Show();
 
             Database = ReadData();
@@ -26,6 +28,7 @@ namespace 리듬_끝말잇기
 
             OutputDevice.PlaybackStopped += OnPlaybackStopped;
             OutputDevice.Init(Reader);
+            logger = new Logger();
         }
 
         // Methods
@@ -171,6 +174,7 @@ namespace 리듬_끝말잇기
             EnableButtons();
             EyeCatchText.Text = "첫곡을\n플레이해주세요!";
             EyeCatchText.Font = new Font("Kotra Leap", 24);
+            logger.Start(Convert.ToInt32(spinBox.Value));
         }
 
         public void EndGame()
@@ -179,6 +183,7 @@ namespace 리듬_끝말잇기
             DisableInput();
             DisableButtons();
             PlayMusic();
+            logger.Close();
 
             letterText.Text = "끝";
         }
@@ -200,12 +205,12 @@ namespace 리듬_끝말잇기
 
         private void PlayMusic()
         {
-            OutputDevice.Play();
+            if (OutputDevice != null) OutputDevice.Play();
         }
 
         private void StopMusic()
         {
-            OutputDevice.Stop();
+            if (OutputDevice != null) OutputDevice.Stop();
         }
 
     // Structures and Variables
@@ -304,6 +309,8 @@ namespace 리듬_끝말잇기
                     
                     inputBox.Text = LastSong.end;
                     UpdateTitle();
+                    logger.NewSong(song.name);
+                    logger.SetAlpha(LastSong.end);
 
                     break;
                 }
@@ -314,6 +321,7 @@ namespace 리듬_끝말잇기
         {
             Count++;
             UpdateCount();
+            logger.AddSongCount();
         }
 
         private void MinusButton_Click(object sender, EventArgs e)
@@ -321,6 +329,7 @@ namespace 리듬_끝말잇기
             Count--;
             if (Count < 0) Count = 0;
             UpdateCount();
+            logger.SubSongCount();
         }
 
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
@@ -360,6 +369,7 @@ namespace 리듬_끝말잇기
                 LastSong.end = LastAlpha;
                 letterText.Text = LastSong.end;
                 inputBox.Text = LastSong.end;
+                logger.SetAlpha(LastSong.end);
             }
         }
 
@@ -384,6 +394,8 @@ namespace 리듬_끝말잇기
 
                 UpdateTitle();
                 inputBox.Text = LastSong.end;
+                logger.NewSong(LastTitle);
+                logger.SetAlpha(LastAlpha);
             }
         }
 
@@ -405,6 +417,61 @@ namespace 리듬_끝말잇기
             OutputDevice = null;
             Reader.Dispose();
             Reader = null;
+        }
+
+        private void RecoverButton(object sender, EventArgs e)
+        {
+            RecoverForm recoverWindow = new RecoverForm(this);
+            recoverWindow.ShowDialog();
+        }
+
+        public void ToggleRecoverButtonEnabled()
+        {
+            recoverButton.Enabled = !recoverButton.Enabled;
+        }
+        
+        public Logger GetLogger()
+        {
+            return logger;
+        }
+
+        public void Recover(Recoverer recoverer, bool time, bool roulette, bool song, bool leftSongCount)
+        {
+            rouletteWindow.RecoverInit();
+            if (leftSongCount)
+            {
+                Count = recoverer.GetLeftSongCount();
+                UpdateCount();
+                logger.Write("START " + recoverer.GetLeftSongCount().ToString());
+            }
+            if (time)
+            {
+                rouletteWindow.AddTime(recoverer.GetSpentTime());
+                logger.AddTime(recoverer.GetSpentTime());
+            }
+            if (roulette)
+            {
+                for (int i = recoverer.GetRouletteIdx(); i < recoverer.GetRouletteHistory().Count; i++)
+                {
+                    rouletteWindow.ReadRoulette("] " + recoverer.GetRouletteHistory()[i]);
+                }
+            }
+            if (song)
+            {
+                foreach (string songName in recoverer.GetSongHistory()) {
+                    SongsPlayed.Add(new Song(songName, "null", "null"));
+                    LastSong.name = songName;
+                    marquee2.Items.Add(songName);
+                    marquee1.Text = songName;
+                    logger.NewSong(songName);
+                }
+                marquee2.UpdateItems();
+                LastSong.end = recoverer.GetAlpha();
+                letterText.Text = recoverer.GetAlpha();
+                inputBox.Text = recoverer.GetAlpha();
+                logger.SetAlpha(recoverer.GetAlpha());
+                UpdateTitle();
+            }
         }
     }
 }

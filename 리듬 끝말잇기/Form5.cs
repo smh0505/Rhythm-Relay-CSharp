@@ -64,6 +64,7 @@ namespace 리듬_끝말잇기
         {
             if (startButton.Text == "출근")
             {
+                parent.ToggleRecoverButtonEnabled();
                 parent.StartGame();
                 timer1.Start();
                 startButton.Text = "퇴근";
@@ -91,6 +92,7 @@ namespace 리듬_끝말잇기
             else
             {
                 parent.ResetGame();
+                parent.ToggleRecoverButtonEnabled();
                 ResetTimer();
                 startButton.Text = "출근";
                 parent.ResetTitle();
@@ -105,6 +107,7 @@ namespace 리듬_끝말잇기
                 pauseButton.Text = "재개";
                 parent.DisableInput();
                 parent.DisableButtons();
+                parent.GetLogger().Pause();
             }
             else
             {
@@ -112,22 +115,17 @@ namespace 리듬_끝말잇기
                 pauseButton.Text = "일시정지";
                 parent.EnableInput();
                 parent.EnableButtons();
+                parent.GetLogger().Continue();
             }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
             time.second++;
-            if (time.second == 60)
-            {
-                time.second = 0;
-                time.minute++;
-            }
-            if (time.minute == 60)
-            {
-                time.minute = 0;
-                time.hour++;
-            }
+            time.minute += time.second / 60;
+            time.second %= 60;
+            time.hour += time.minute / 60;
+            time.minute %= 60;
             timerText.Text = time.ToString();
         }
 
@@ -170,7 +168,7 @@ namespace 리듬_끝말잇기
 
         private delegate void rouletteInvoker(string rValue);
 
-        private void ReadRoulette(string rValue)
+        public void ReadRoulette(string rValue)
         {
             string option = rValue.Substring(1);
             if (!option.Contains("꽝"))
@@ -200,6 +198,7 @@ namespace 리듬_끝말잇기
                         rouletteList.SetItemChecked(x, true);
                     }
                     else rouletteList.Items.Add(option, false);
+                    parent.GetLogger().NewRoulette(option);
                     break;
             }
             if (!nextButton.Enabled) nextButton.Enabled = true;
@@ -238,6 +237,7 @@ namespace 리듬_끝말잇기
                 OptionName.Text = rouletteList.Items[0].ToString();
                 if (rouletteList.GetItemChecked(0)) OptionName.Text += " + 알파벳 리롤";
                 rouletteList.Items.RemoveAt(0);
+                parent.GetLogger().NextRoulette();
             }
             else
             {
@@ -250,6 +250,17 @@ namespace 리듬_끝말잇기
         {
             parent.Close();
             child.Abort();
+        }
+
+        public void AddTime(int sec)
+        {
+            time.second += sec;
+            timerText.Text = time.ToString();
+        }
+
+        public void RecoverInit()
+        {
+            StartButton_Click(new object(), new EventArgs());
         }
     }
 }
