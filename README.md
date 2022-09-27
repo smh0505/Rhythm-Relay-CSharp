@@ -18,6 +18,6 @@
 Arpa__ (aka. 김편집 Kim Pyun Jip)  
 [리턴](https://tgd.kr/s/arpa__/65506840)  
 [emshdev](https://github.com/smh0505/rhythm_relay/issues/1) (aka. 문승현)  
-[WannaHeal](https://github.com/smh0505/rhythm_relay/pull/2)
-[alsrjs0725](https://github.com/smh0505/Rhythm-Relay-CSharp/pull/2)
+[WannaHeal](https://github.com/smh0505/rhythm_relay/pull/2)  
+[alsrjs0725](https://github.com/smh0505/Rhythm-Relay-CSharp/pull/2)  
 And You.
