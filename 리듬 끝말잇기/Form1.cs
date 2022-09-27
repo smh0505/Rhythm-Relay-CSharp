@@ -16,6 +16,7 @@ namespace 리듬_끝말잇기
 {
     public partial class mainWindow : Form
     {
+        private readonly Logger logger = null;
         private readonly RouletteWindow rw = null;
 
         public mainWindow()
@@ -30,10 +31,8 @@ namespace 리듬_끝말잇기
 
             comboBox.SelectedIndex = 0;
 
-            OutputDevice.PlaybackStopped += OnPlaybackStopped;
-            OutputDevice.Init(Reader);
-
             rouletteThread = new Thread(new ThreadStart(Connect));
+            logger = new Logger();
         }
 
     // Methods
@@ -145,6 +144,7 @@ namespace 리듬_끝말잇기
             EnableInput();
             EnableButtons();
             rw.EyeCatch = "첫 곡을\n플레이해주세요!";
+            logger.Start(Convert.ToInt32(spinBox.Value));
         }
 
         private void EndGame()
@@ -174,12 +174,19 @@ namespace 리듬_끝말잇기
 
         private void PlayMusic()
         {
+            OutputDevice = new WaveOutEvent();
+            Reader = new AudioFileReader("Didn\'t Fall! (You Win).mp3");
+            OutputDevice.Init(Reader);
             OutputDevice.Play();
         }
 
         private void StopMusic()
         {
             OutputDevice.Stop();
+            OutputDevice.Dispose();
+            OutputDevice = null;
+            Reader.Dispose();
+            Reader = null;
         }
 
     // Structures and Variables
@@ -216,9 +223,9 @@ namespace 리듬_끝말잇기
 
         private decimal Count = 10;
 
-        private WaveOutEvent OutputDevice = new WaveOutEvent();
+        private WaveOutEvent OutputDevice;
 
-        private AudioFileReader Reader = new AudioFileReader("Didn\'t Fall! (You Win).mp3");
+        private AudioFileReader Reader;
 
         public string LastAlpha { get; set; }
 
@@ -281,6 +288,8 @@ namespace 리듬_끝말잇기
                     
                     inputBox.Text = LastSong.end;
                     rw.UpdateTitle(LastSong.name, LastSong.end);
+                    logger.NewSong(LastSong.name);
+                    logger.SetAlpha(LastSong.end);
 
                     break;
                 }
@@ -291,12 +300,14 @@ namespace 리듬_끝말잇기
         {
             Count++;
             rw.UpdateCount(Count);
+            logger.AddSongCount();
         }
 
         private void MinusButton_Click(object sender, EventArgs e)
         {
             Count--;
             if (Count < 0) Count = 0;
+            else logger.SubSongCount();
             rw.UpdateCount(Count);
         }
 
@@ -340,6 +351,7 @@ namespace 리듬_끝말잇기
                 LastSong.end = LastAlpha;
                 rw.EndLetter = LastSong.end;
                 inputBox.Text = LastSong.end;
+                logger.SetAlpha(LastSong.end);
             }
         }
 
@@ -363,6 +375,8 @@ namespace 리듬_끝말잇기
 
                 rw.UpdateTitle(LastSong.name, LastSong.end);
                 inputBox.Text = LastSong.end;
+                logger.NewSong(LastTitle);
+                logger.SetAlpha(LastSong.end);
             }
         }
 
@@ -380,14 +394,6 @@ namespace 리듬_끝말잇기
             OutputDevice.Volume = trackBar1.Value / 100f;
         }
 
-        private void OnPlaybackStopped(object sender, EventArgs e)
-        {
-            OutputDevice.Dispose();
-            OutputDevice = null;
-            Reader.Dispose();
-            Reader = null;
-        }
-
         // Game Control
 
         private void StartButton_Click(object sender, EventArgs e)
@@ -398,6 +404,8 @@ namespace 리듬_끝말잇기
                 rw.StartTimer();
                 startButton.Text = "퇴근";
                 pauseButton.Enabled = true;
+                recoverButton.Enabled = false;
+                logger.Start(Convert.ToInt32(spinBox.Value));
             }
             else if (startButton.Text == "퇴근")
             {
@@ -414,6 +422,7 @@ namespace 리듬_끝말잇기
                     startButton.Text = "리셋";
                     pauseButton.Enabled = false;
                     pauseButton.Text = "일시정지";
+                    logger.Close();
                 }
             }
             else
@@ -422,6 +431,7 @@ namespace 리듬_끝말잇기
                 rw.ResetTimer();
                 startButton.Text = "출근";
                 rw.ResetTitle();
+                recoverButton.Enabled = true;
             }
         }
 
@@ -433,6 +443,7 @@ namespace 리듬_끝말잇기
                 pauseButton.Text = "재개";
                 DisableInput();
                 DisableButtons();
+                logger.Pause();
             }
             else
             {
@@ -440,6 +451,7 @@ namespace 리듬_끝말잇기
                 pauseButton.Text = "일시정지";
                 EnableInput();
                 EnableButtons();
+                logger.Continue();
             }
         }
 
@@ -518,6 +530,7 @@ namespace 리듬_끝말잇기
                         rouletteList.SetItemChecked(x, true);
                     }
                     else rouletteList.Items.Add(option, false);
+                    logger.NewRoulette(option);
                     break;
             }
             if (!nextButton.Enabled) nextButton.Enabled = true;
@@ -563,6 +576,42 @@ namespace 리듬_끝말잇기
                 rw.OptionText = "옵션 없음";
                 nextButton.Enabled = false;
             }
+            logger.NextRoulette();
         }
+
+        private void RecoverButton_Click(object sender, EventArgs e)
+        {
+            RecoverForm recoverForm = new RecoverForm(this);
+            recoverForm.ShowDialog();
+        }
+
+        public void Recover(Recoverer recoverer, bool time, bool roulette, bool song, bool leftSongCount)
+        {
+            StartGame();
+            recoverButton.Enabled = false;
+            rw.Recover(recoverer, time, song, leftSongCount);
+            if (roulette)
+            {
+                rouletteList.Items.Clear();
+                if (recoverer.GetRouletteIdx() != -1)
+                {
+                    rw.OptionText = recoverer.GetRouletteHistory()[recoverer.GetRouletteIdx()];
+                }
+                for (int i = recoverer.GetRouletteIdx() + 1; i < recoverer.GetRouletteHistory().Count; i++)
+                {
+                    ReadRoulette("] " + recoverer.GetRouletteHistory()[i]);
+                }
+            }
+            if (song)
+            {
+                FirstSongPlayed = (recoverer.GetSongHistory().Count != 0);
+            }
+            rw.StartTimer();
+            startButton.Text = "퇴근";
+            pauseButton.Enabled = true;
+            recoverButton.Enabled = false;
+        }
+        
+        public Logger GetLogger() { return logger; }
     }
 }

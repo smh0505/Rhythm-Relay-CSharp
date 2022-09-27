@@ -48,6 +48,7 @@
             this.plusButton = new System.Windows.Forms.Button();
             this.minusButton = new System.Windows.Forms.Button();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.recoverButton = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
@@ -246,7 +247,7 @@
             this.addButton.Enabled = false;
             this.addButton.Location = new System.Drawing.Point(131, 4);
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(120, 37);
+            this.addButton.Size = new System.Drawing.Size(121, 37);
             this.addButton.TabIndex = 11;
             this.addButton.Text = "선곡";
             this.addButton.UseVisualStyleBackColor = true;
@@ -266,7 +267,7 @@
             this.editButton.Enabled = false;
             this.editButton.Location = new System.Drawing.Point(3, 47);
             this.editButton.Name = "editButton";
-            this.editButton.Size = new System.Drawing.Size(122, 37);
+            this.editButton.Size = new System.Drawing.Size(121, 37);
             this.editButton.TabIndex = 13;
             this.editButton.Text = "선곡 수정";
             this.editButton.UseVisualStyleBackColor = true;
@@ -277,7 +278,7 @@
             this.forceAddButton.Enabled = false;
             this.forceAddButton.Location = new System.Drawing.Point(131, 47);
             this.forceAddButton.Name = "forceAddButton";
-            this.forceAddButton.Size = new System.Drawing.Size(120, 37);
+            this.forceAddButton.Size = new System.Drawing.Size(121, 37);
             this.forceAddButton.TabIndex = 14;
             this.forceAddButton.Text = "강제 선곡";
             this.forceAddButton.UseVisualStyleBackColor = true;
@@ -288,7 +289,7 @@
             this.plusButton.Enabled = false;
             this.plusButton.Location = new System.Drawing.Point(3, 90);
             this.plusButton.Name = "plusButton";
-            this.plusButton.Size = new System.Drawing.Size(122, 37);
+            this.plusButton.Size = new System.Drawing.Size(121, 37);
             this.plusButton.TabIndex = 15;
             this.plusButton.Text = "1곡 추가";
             this.plusButton.UseVisualStyleBackColor = true;
@@ -297,9 +298,9 @@
             // minusButton
             // 
             this.minusButton.Enabled = false;
-            this.minusButton.Location = new System.Drawing.Point(131, 90);
+            this.minusButton.Location = new System.Drawing.Point(130, 90);
             this.minusButton.Name = "minusButton";
-            this.minusButton.Size = new System.Drawing.Size(120, 37);
+            this.minusButton.Size = new System.Drawing.Size(121, 37);
             this.minusButton.TabIndex = 16;
             this.minusButton.Text = "1곡 제거";
             this.minusButton.UseVisualStyleBackColor = true;
@@ -309,6 +310,7 @@
             // 
             this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel7.Controls.Add(this.minusButton);
+            this.panel7.Controls.Add(this.recoverButton);
             this.panel7.Controls.Add(this.editButton);
             this.panel7.Controls.Add(this.plusButton);
             this.panel7.Controls.Add(this.forceAddButton);
@@ -317,6 +319,16 @@
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(260, 135);
             this.panel7.TabIndex = 19;
+            // 
+            // recoverButton
+            // 
+            this.recoverButton.Location = new System.Drawing.Point(3, 4);
+            this.recoverButton.Name = "recoverButton";
+            this.recoverButton.Size = new System.Drawing.Size(121, 37);
+            this.recoverButton.TabIndex = 13;
+            this.recoverButton.Text = "복구";
+            this.recoverButton.UseVisualStyleBackColor = true;
+            this.recoverButton.Click += new System.EventHandler(this.RecoverButton_Click);
             // 
             // trackBar1
             // 
@@ -459,7 +471,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "mainWindow";
-            this.Text = "리듬 끝말잇기 in C# Ver.1.2";
+            this.Text = "리듬 끝말잇기 in C# Ver.1.3";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWindow_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.spinBox)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -510,6 +522,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox keyInput;
         private System.Windows.Forms.CheckedListBox rouletteList;
+        private System.Windows.Forms.Button recoverButton;
     }
 }
 
