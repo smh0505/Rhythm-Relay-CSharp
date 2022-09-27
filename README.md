@@ -12,16 +12,12 @@
 그 외에도 사용자의 요청 및 제작자의 변덕 등으로 인해 기능들이 추가/수정/제거 될 수도 있으며 컨텐츠의 종료로 인해 이 프로젝트 또한 닫힐 수 있습니다.
 ## 현재 버전: Ver.1.3
 파이썬으로 작성된 이전 버전들에 대해서는 [여기](https://github.com/smh0505/rhythm_relay)를 참고해주세요.
-가장 최근 버전인 [Ver.1.2.1](https://github.com/smh0505/Rhythm-Relay-CSharp/releases/tag/v.1.2.1)과 비교해 다음과 같은 변경점이 있습니다.
-1. 모듈이 재배열되었습니다.
-  - 메인 창: 제어판
-  - 파딱 창 Ver.3: 방송에 띄우는 용도
-  - 수정 창: 필요 시 열 수 있음
-  - 강제 선곡 창: 필요 시 열 수 있음
-2. Listbox 업데이트 매커니즘을 수정하여 레이턴시를 줄였습니다.
+가장 최근 버전인 [Ver.1.3](https://github.com/smh0505/Rhythm-Relay-CSharp/releases/tag/v.1.3)과 비교해 다음과 같은 변경점이 있습니다.
+1. [로그 기록 및 복원 기능](https://github.com/smh0505/Rhythm-Relay-CSharp/pull/2)이 추가되었습니다.
 ## Special Thanks
 Arpa__ (aka. 김편집 Kim Pyun Jip)  
 [리턴](https://tgd.kr/s/arpa__/65506840)  
 [emshdev](https://github.com/smh0505/rhythm_relay/issues/1) (aka. 문승현)  
-[WannaHeal](https://github.com/smh0505/rhythm_relay/pull/2)  
+[WannaHeal](https://github.com/smh0505/rhythm_relay/pull/2)
+[alsrjs0725](https://github.com/smh0505/Rhythm-Relay-CSharp/pull/2)
 And You.
