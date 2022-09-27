@@ -165,5 +165,30 @@ namespace 리듬_끝말잇기
         {
             parent.Close();
         }
+
+
+        public void Recover(Recoverer recoverer, bool time, bool song, bool leftSongCount)
+        {
+            if (time)
+            {
+                this.time = new Time(recoverer.GetSpentTime());
+                timerText.Text = this.time.ToString();
+                parent.GetLogger().AddTime(recoverer.GetSpentTime());
+            }
+            if (song)
+            {
+                foreach (string songName in recoverer.GetSongHistory())
+                {
+                    UpdateTitle(songName, recoverer.GetAlpha());
+                    parent.GetLogger().NewSong(songName);
+                }
+                parent.GetLogger().SetAlpha(recoverer.GetAlpha());
+            }
+            if (leftSongCount)
+            {
+                UpdateCount(recoverer.GetLeftSongCount());
+                parent.GetLogger().Write("START " + recoverer.GetLeftSongCount().ToString());
+            }
+        }
     }
 }
