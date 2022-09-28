@@ -144,7 +144,7 @@ namespace 리듬_끝말잇기
             EnableInput();
             EnableButtons();
             rw.EyeCatch = "첫 곡을\n플레이해주세요!";
-            logger.Start(Convert.ToInt32(spinBox.Value));
+            logger.Start(Convert.ToInt32(spinBox.Value), "");
         }
 
         private void EndGame()
@@ -405,7 +405,11 @@ namespace 리듬_끝말잇기
                 startButton.Text = "퇴근";
                 pauseButton.Enabled = true;
                 recoverButton.Enabled = false;
-                logger.Start(Convert.ToInt32(spinBox.Value));
+                logger.Start(Convert.ToInt32(spinBox.Value), "");
+                foreach (string roulette in rouletteList.Items)
+                {
+                    logger.NewRoulette(roulette);
+                }
             }
             else if (startButton.Text == "퇴근")
             {
@@ -458,6 +462,12 @@ namespace 리듬_끝말잇기
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
             rouletteThread.Abort();
+            logger.Start(10, "ExitProgram");  // Arg is not important
+            foreach (string roulette in rouletteList.Items)
+            {
+                logger.NewRoulette(roulette);
+            }
+            logger.Close();
         }
 
         // Toonation Client
@@ -511,25 +521,15 @@ namespace 리듬_끝말잇기
                 case "꽝":
                 case "따뜻한 위로와 격려":
                     break;
-                case "알파벳 랜덤으로 변경":
-                    if (rouletteList.Items.Count == 0)
-                        rouletteList.Items.Add("옵션 없음", true);
-                    else if (rouletteList.GetItemChecked(rouletteList.Items.Count - 1))
-                        rouletteList.Items.Add("옵션 없음", true);
-                    else rouletteList.SetItemChecked(rouletteList.Items.Count - 1, true);
-                    break;
+                //
+                // 알파벳 랜덤 변경의 경우 시행 시점이 이전곡 종료 -> 이번곡 선곡 -> 알파벳 변경
+                // 순서이기에 이전 룰렛과 굳이 같이 존재할 필요가 없음
+                //
                 case "처음부터 다시하기":
                     rw.LabelText = "경) 태초마을 (축";
                     break;
                 default:
-                    var x = rouletteList.Items.IndexOf("옵션 없음");
-                    if (x != -1)
-                    {
-                        rouletteList.Items.RemoveAt(x);
-                        rouletteList.Items.Insert(x, option);
-                        rouletteList.SetItemChecked(x, true);
-                    }
-                    else rouletteList.Items.Add(option, false);
+                    rouletteList.Items.Add(option);
                     logger.NewRoulette(option);
                     break;
             }
@@ -566,15 +566,14 @@ namespace 리듬_끝말잇기
         {
             if (rouletteList.Items.Count > 0)
             {
-                var optionString = rouletteList.Items[0].ToString();
-                if (rouletteList.GetItemChecked(0)) optionString += " + 알파벳 리롤";
-                rw.OptionText = optionString;
+                rw.OptionText = rouletteList.Items[0].ToString();
                 rouletteList.Items.RemoveAt(0);
             }
             else
             {
                 rw.OptionText = "옵션 없음";
                 nextButton.Enabled = false;
+                logger.NewRoulette("옵션 없음");
             }
             logger.NextRoulette();
         }

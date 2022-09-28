@@ -9,7 +9,7 @@ namespace 리듬_끝말잇기
     {
         List<string> SongHistory = new List<string>();
         List<string> RouletteHistory = new List<string>();
-        string Alpha = " ";
+        string Alpha = "NULL";
         int SongCount, TimeSpent = 0, RouletteIdx = -1;
 
         public void Recover(String path)
@@ -48,7 +48,7 @@ namespace 리듬_끝말잇기
                         Pause = false;
                         break;
                     case "SET":
-                        Alpha = Tmp[2][0].ToString();
+                        Alpha = Tmp[2];
                         break;
                     case "ADD":
                         SongCount += 1;

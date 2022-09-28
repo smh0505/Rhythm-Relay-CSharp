@@ -59,7 +59,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.keyInput = new System.Windows.Forms.TextBox();
-            this.rouletteList = new System.Windows.Forms.CheckedListBox();
+            this.rouletteList = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.spinBox)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -521,7 +521,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox keyInput;
-        private System.Windows.Forms.CheckedListBox rouletteList;
+        private System.Windows.Forms.ListBox rouletteList;
         private System.Windows.Forms.Button recoverButton;
     }
 }
