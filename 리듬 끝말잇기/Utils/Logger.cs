@@ -6,71 +6,74 @@ namespace 리듬_끝말잇기
 {
     public class Logger
     {
-        private FileStream fs;
+        private FileStream fs = null;
 
-        public void Start(int SongCount)
+        public bool Start(int songCount, string filenameSuffix)
         {
             if (fs != null) Close();
             if (!Directory.Exists("Log")) Directory.CreateDirectory("Log");
-            fs = File.Create("Log\\" + DateTime.Now.ToString("yyyy-dd-MM_HH-mm-ss") + ".log");
-            Write("START " + SongCount.ToString());
+            fs = File.Create(String.Format("Log\\{0}_{1}.log", DateTime.Now.ToString("yyyy-dd-MM_HH-mm-ss"), filenameSuffix));
+            return Write("START " + songCount.ToString());
         }
 
-        public void NewSong(string songName)
+        public bool NewSong(string songName)
         {
-            Write("SONG " + songName);
+            return Write("SONG " + songName);
         }
 
-        public void NewRoulette(string option)
+        public bool NewRoulette(string option)
         {
-            Write("ROULETTE " + option);
+            return Write("ROULETTE " + option);
         }
 
-        public void Pause()
+        public bool Pause()
         {
-            Write("PAUSE");
+            return Write("PAUSE");
         }
 
-        public void Continue()
+        public bool Continue()
         {
-            Write("CONTINUE");
+            return Write("CONTINUE");
         }
 
-        public void SetAlpha(string alpha)
+        public bool SetAlpha(string alpha)
         {
-            Write("SET " + alpha);
+            return Write("SET " + alpha);
         }
 
-        public void AddSongCount()
+        public bool AddSongCount()
         {
-            Write("ADD");
+            return Write("ADD");
         }
 
-        public void SubSongCount()
+        public bool SubSongCount()
         {
-            Write("SUB");
+            return Write("SUB");
         }
 
-        public void NextRoulette()
+        public bool NextRoulette()
         {
-            Write("NextRoulette");
+            return Write("NextRoulette");
         }
 
-        public void Write(string str)
+        public bool Write(string str)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(DateTime.Now.ToString("[HH:mm:ss]") + ": " + str + '\n');
+            if (fs == null) return false;
+            byte[] bytes = Encoding.UTF8.GetBytes(String.Format(DateTime.Now.ToString("[HH:mm:ss]: {0}\n"), str));
             fs.Write(bytes, 0, bytes.Length);
             fs.Flush();
+            return true;
         }
 
         public void Close()
         {
             fs.Close();
+            fs = null;
         }
 
-        public void AddTime(int sec)
+        public bool AddTime(int sec)
         {
-            Write("ADDTIME " + sec.ToString());
+            return Write("ADDTIME " + sec.ToString());
         }
     }
 }
