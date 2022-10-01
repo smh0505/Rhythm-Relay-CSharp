@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Collections.Generic;
 
 namespace 리듬_끝말잇기
@@ -25,9 +24,7 @@ namespace 리듬_끝말잇기
                 Tmp = Parse(sr.ReadLine());
                 CurrentTime = StrToSec(Tmp[0]);
                 if (PrvTime != -1 && !Pause)
-                {
                     TimeSpent += (CurrentTime - PrvTime + 24 * 60 * 60) % (24 * 60 * 60);
-                }
                 PrvTime = CurrentTime;
 
                 switch (Tmp[1])
@@ -75,10 +72,7 @@ namespace 리듬_끝말잇기
                 if ((Idx != 0) || (Str[i] != '[' && Str[i] != ']'))
                 {
                     if (Str[i] == ' ' && Idx < 2) Idx++;
-                    else
-                    {
-                        Tmp[Idx] += Str[i];
-                    }
+                    else Tmp[Idx] += Str[i];
                 }
             }
             return Tmp;

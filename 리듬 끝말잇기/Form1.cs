@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -521,15 +520,26 @@ namespace 리듬_끝말잇기
                 case "꽝":
                 case "따뜻한 위로와 격려":
                     break;
-                //
-                // 알파벳 랜덤 변경의 경우 시행 시점이 이전곡 종료 -> 이번곡 선곡 -> 알파벳 변경
-                // 순서이기에 이전 룰렛과 굳이 같이 존재할 필요가 없음
-                //
+                case "알파벳 랜덤으로 변경":
+                    if (rouletteList.Items.Count == 0)
+                        rouletteList.Items.Add("옵션 없음", true);
+                    else if (rouletteList.GetItemChecked(rouletteList.Items.Count - 1))
+                        rouletteList.Items.Add("옵션 없음", true);
+                    else rouletteList.SetItemChecked(rouletteList.Items.Count - 1, true);
+                    logger.NewRoulette(option);
+                    break;
                 case "처음부터 다시하기":
                     rw.LabelText = "경) 태초마을 (축";
                     break;
                 default:
-                    rouletteList.Items.Add(option);
+                    var x = rouletteList.Items.IndexOf("옵션 없음");
+                    if (x != -1)
+                    {
+                        rouletteList.Items.RemoveAt(x);
+                        rouletteList.Items.Insert(x, option);
+                        rouletteList.SetItemChecked(x, true);
+                    }
+                    else rouletteList.Items.Add(option, false);
                     logger.NewRoulette(option);
                     break;
             }
@@ -592,19 +602,13 @@ namespace 리듬_끝말잇기
             if (roulette)
             {
                 rouletteList.Items.Clear();
-                if (recoverer.GetRouletteIdx() != -1)
-                {
-                    rw.OptionText = recoverer.GetRouletteHistory()[recoverer.GetRouletteIdx()];
-                }
-                for (int i = recoverer.GetRouletteIdx() + 1; i < recoverer.GetRouletteHistory().Count; i++)
-                {
+                for (int i = 0; i < recoverer.GetRouletteHistory().Count; i++)
                     ReadRoulette("] " + recoverer.GetRouletteHistory()[i]);
-                }
+                for (int i = 0; i <= recoverer.GetRouletteIdx(); i++)
+                    rouletteList.Items.RemoveAt(0);
             }
             if (song)
-            {
                 FirstSongPlayed = (recoverer.GetSongHistory().Count != 0);
-            }
             rw.StartTimer();
             startButton.Text = "퇴근";
             pauseButton.Enabled = true;

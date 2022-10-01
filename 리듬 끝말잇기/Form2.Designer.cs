@@ -124,6 +124,7 @@
             this.cancelButton.TabIndex = 6;
             this.cancelButton.Text = "취소";
             this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // marquee1
             // 

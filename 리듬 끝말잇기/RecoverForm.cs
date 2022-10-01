@@ -28,7 +28,7 @@ namespace 리듬_끝말잇기
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 label1.Text = Path.GetFileName(openFileDialog.FileName);
-                this.recoverButton.Enabled = true;
+                recoverButton.Enabled = true;
                 selectedFile = openFileDialog.FileName;
             }
         }
@@ -38,7 +38,7 @@ namespace 리듬_끝말잇기
             Recoverer recoverer = new Recoverer();
             recoverer.Recover(selectedFile);
             parent.Recover(recoverer, timeCheckbox.Checked, rouletteCheckbox.Checked, songCheckbox.Checked, leftSongCountCheckbox.Checked);
-            this.Close();
+            Close();
         }
     }
 }
