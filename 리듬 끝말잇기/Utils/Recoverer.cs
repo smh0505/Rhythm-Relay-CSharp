@@ -9,7 +9,7 @@ namespace 리듬_끝말잇기
         List<string> SongHistory = new List<string>();
         List<string> RouletteHistory = new List<string>();
         string Alpha = "NULL";
-        int SongCount, TimeSpent = 0, RouletteIdx = -1;
+        int SongCount, TimeSpent, RouletteIdx = 0;
 
         public void Recover(String path)
         {

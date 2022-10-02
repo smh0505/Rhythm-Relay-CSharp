@@ -576,14 +576,15 @@ namespace 리듬_끝말잇기
         {
             if (rouletteList.Items.Count > 0)
             {
-                rw.OptionText = rouletteList.Items[0].ToString();
+                var option = rouletteList.Items[0].ToString();
+                if (rouletteList.GetItemChecked(0)) option += " + 알파벳 리롤";
+                rw.OptionText = option;
                 rouletteList.Items.RemoveAt(0);
             }
             else
             {
                 rw.OptionText = "옵션 없음";
                 nextButton.Enabled = false;
-                logger.NewRoulette("옵션 없음");
             }
             logger.NextRoulette();
         }
@@ -601,11 +602,47 @@ namespace 리듬_끝말잇기
             rw.Recover(recoverer, time, song, leftSongCount);
             if (roulette)
             {
+                // 초기화
                 rouletteList.Items.Clear();
-                for (int i = 0; i < recoverer.GetRouletteHistory().Count; i++)
-                    ReadRoulette("] " + recoverer.GetRouletteHistory()[i]);
-                for (int i = 0; i <= recoverer.GetRouletteIdx(); i++)
-                    rouletteList.Items.RemoveAt(0);
+                
+                // 불러온 옵션들을 형식에 맞게 재나열
+                List<(string, bool)> options = new List<(string, bool)>();
+                foreach (string option in recoverer.GetRouletteHistory())
+                {
+                    if (option == "알파벳 랜덤으로 변경")
+                    {
+                        if (options.Count == 0) options.Add(("옵션 없음", true));
+                        else if (options[options.Count - 1].Item2) options.Add(("옵션 없음", true));
+                        else
+                        {
+                            options.Insert(options.Count - 1, (options[options.Count - 1].Item1, true));
+                            options.RemoveAt(options.Count - 1);
+                        }
+                    }
+                    else
+                    {
+                        var x = options.IndexOf(("옵션 없음", true));
+                        if (x != -1)
+                        {
+                            options.RemoveAt(x);
+                            options.Insert(x, (option, true));
+                        }
+                        else options.Add((option, false));
+                    }
+                }
+
+                // 재나열된 옵션들 중 이미 소화한 것들을 제거
+                // 이 때, 전부 소화했다면 리스트를 비움
+                if (options.Count > recoverer.GetRouletteIdx())
+                    options.RemoveRange(0, recoverer.GetRouletteIdx());
+                else options.RemoveRange(0, options.Count);
+
+                // 남은 옵션이 있다면 전부 업데이트
+                foreach (var option in options)
+                {
+                    ReadRoulette(" ] " + option.Item1);
+                    if (option.Item2) ReadRoulette(" ] 알파벳 랜덤으로 변경");
+                }
             }
             if (song)
                 FirstSongPlayed = (recoverer.GetSongHistory().Count != 0);
